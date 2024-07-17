@@ -13,7 +13,7 @@ import {
 
 
 function MovieCard({ title, posterPath, id }) {
-  const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
+  // const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
 
   return (
     <Link to={`/movie/${id}`}>
@@ -28,7 +28,7 @@ function MovieCard({ title, posterPath, id }) {
         <CardBody height="100%" padding="0"   >
           <AspectRatio ratio={2 / 3} width="100%" height="100%">
             <Image
-              src={posterUrl}
+              src={posterPath}
               alt="movie"
               borderRadius="0 7px 0 0"
               objectFit="cover"

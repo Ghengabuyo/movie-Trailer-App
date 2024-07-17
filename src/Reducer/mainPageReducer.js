@@ -10,6 +10,12 @@ function mainPageReducer(state, action) {
 
   switch (action.type) {
 
+    case "SET_ALL_MOVIES":
+      return {
+        ...state,
+        allMovies: action.payload
+      };
+
     case "SET_DISCOVER_MOVIES":
       return {
         ...state,

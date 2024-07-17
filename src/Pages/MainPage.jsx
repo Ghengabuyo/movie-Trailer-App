@@ -22,6 +22,7 @@ function MainPage() {
   const { setDisplayName } = useContext(nameContext);
 
   const initState = {
+    allMovies: [],
     discoverMovies: [],
     trendingMovies: [],
     topRatedMovies: [],
@@ -30,7 +31,7 @@ function MainPage() {
   };
 
   const [state, dispatch] = useReducer(mainPageReducer, initState);
-  const { discoverMovies, trendingMovies, topRatedMovies, upcomingMovies, favorites } = state;
+  const { allMovies , discoverMovies, trendingMovies, topRatedMovies, upcomingMovies, favorites } = state;
   const [searchMovie, setSearchMovie] = useState('');
 
   useEffect(() => {
@@ -48,10 +49,16 @@ function MainPage() {
 
   const apiUrl = 'https://api.themoviedb.org/3/';
   const apiKey = '8772c586ff1328a24e402adce96ff6f9';
+  const myApi = 'http://localhost:3000';
 
 
   const fetchMovieDetails = async () => {
     try {
+
+      const allMoviesResponse = await fetch(`${myApi}/movies`);
+      const allMoviesJson = await allMoviesResponse.json();
+      dispatch({ type: 'SET_ALL_MOVIES', payload: allMoviesJson.data });
+
       const discoverResponse = await fetch(`${apiUrl}discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${apiKey}`);
       const discoverJson = await discoverResponse.json();
       dispatch({ type: "SET_DISCOVER_MOVIES", payload: discoverJson.results });
@@ -93,12 +100,10 @@ function MainPage() {
   
 
   const filterMovies = () => {
-    const allMovies = [
-      ...discoverMovies,
-      ...trendingMovies,
-      ...topRatedMovies,
-      ...upcomingMovies
+    const allMovies = [ ...allMovies
     ];
+
+    console.log('all movies', allMovies);
 
     // Use a Set to store unique movie IDs
     const uniqueMovieIds = new Set();
@@ -179,7 +184,8 @@ function MainPage() {
 
           <TabPanels mt="-10">
             <TabPanel>
-              <AllMovies movies={filterMovies()} searchMovie={searchMovie} />
+              <AllMovies movies={allMovies} searchMovie={searchMovie} />
+              {/* <AllMovies movies={filterMovies()} searchMovie={searchMovie} /> */}
             </TabPanel>
             <TabPanel>
               <DiscoverMovies movies={discoverMovies} searchMovie={searchMovie} />

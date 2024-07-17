@@ -5,12 +5,10 @@ function AllMovies({ movies, searchMovie }) {
 
 
   const filteredMovies = movies.filter(movie => {
-    const title = movie.title ? movie.title.toLowerCase() : '';
-    const name = movie.name ? movie.name.toLowerCase() : '';
+    const title = movie.title;
 
     return (
-      title.includes(searchMovie.toLowerCase()) ||
-      name.includes(searchMovie.toLowerCase())
+      title.includes(searchMovie.toLowerCase())
     );
   });
 
@@ -28,7 +26,7 @@ function AllMovies({ movies, searchMovie }) {
             <MovieCard
               key={index}
               id={movie.id}
-              title={movie.title || movie.name || 'Untitled'}
+              title={movie.title}
               posterPath={movie.poster_path}
             />
           ))}
