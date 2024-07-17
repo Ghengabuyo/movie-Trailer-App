@@ -1,0 +1,203 @@
+import React, { useEffect, useContext, useReducer, useState } from "react";
+import nameContext from "../Contexts/nameContext";
+import Header from "../Components/Header";
+import DiscoverMovies from "../Components/DiscoverMovies";
+import TrendingMovies from "../Components/TrendingMovies";
+import TopRatedMovies from "../Components/TopRatedMovies";
+import UpcomingMovies from "../Components/UpcomingMovies";
+import AllMovies from "../Components/AllMovies";
+import style from './MainPage.module.css';
+import mainPageReducer from "../Reducer/mainPageReducer";
+import {
+  TabList,
+  Tabs,
+  Tab,
+  TabPanels,
+  TabPanel
+
+} from "@chakra-ui/react";
+import Search from "../Components/Search";
+
+function MainPage() {
+  const { setDisplayName } = useContext(nameContext);
+
+  const initState = {
+    discoverMovies: [],
+    trendingMovies: [],
+    topRatedMovies: [],
+    upcomingMovies: [],
+    favorites: [],
+  };
+
+  const [state, dispatch] = useReducer(mainPageReducer, initState);
+  const { discoverMovies, trendingMovies, topRatedMovies, upcomingMovies, favorites } = state;
+  const [searchMovie, setSearchMovie] = useState('');
+
+  useEffect(() => {
+    const savedDisplayName = localStorage.getItem('displayName');
+    if (savedDisplayName) {
+      setDisplayName(savedDisplayName);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    fetchMovieDetails();
+  }, []);
+
+
+  const apiUrl = 'https://api.themoviedb.org/3/';
+  const apiKey = '8772c586ff1328a24e402adce96ff6f9';
+
+
+  const fetchMovieDetails = async () => {
+    try {
+      const discoverResponse = await fetch(`${apiUrl}discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${apiKey}`);
+      const discoverJson = await discoverResponse.json();
+      dispatch({ type: "SET_DISCOVER_MOVIES", payload: discoverJson.results });
+
+      const trendingResponse = await fetch(`${apiUrl}trending/all/day?language=en-US&api_key=${apiKey}`);
+      const trendingJson = await trendingResponse.json();
+      dispatch({ type: "SET_TRENDING_MOVIES", payload: trendingJson.results });
+
+      const topRatedResponse = await fetch(`${apiUrl}movie/top_rated?language=en-US&page=1&api_key=${apiKey}`);
+      const topRatedJson = await topRatedResponse.json();
+      dispatch({ type: "SET_TOP_RATED_MOVIES", payload: topRatedJson.results });
+
+      const upcomingResponse = await fetch(`${apiUrl}movie/upcoming?language=en-US&page=1&api_key=${apiKey}`);
+      const upcomingJson = await upcomingResponse.json();
+      dispatch({ type: "SET_UPCOMING_MOVIES", payload: upcomingJson.results });
+    } catch (error) {
+      console.error('Error fetching movie data:', error);
+    }
+  };
+
+
+  const handleSearchMovie = (e) => {
+    setSearchMovie(e.target.value);
+  };
+
+
+  useEffect(() => {
+    const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    dispatch({ type: "LOAD_FAVORITES", payload: savedFavorites });
+  }, []);
+
+
+  const removeFavorite = (id) => {
+    dispatch({ type: "REMOVE_FAVORITE", payload: id });
+    // Update localStorage to store the updated favorites
+    const updatedFavorites = favorites.filter(favorite => favorite.id !== id);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
+  
+
+  const filterMovies = () => {
+    const allMovies = [
+      ...discoverMovies,
+      ...trendingMovies,
+      ...topRatedMovies,
+      ...upcomingMovies
+    ];
+
+    // Use a Set to store unique movie IDs
+    const uniqueMovieIds = new Set();
+    const filteredMovies = [];
+
+    allMovies.forEach(movie => {
+      // Check if movie ID is already in the Set
+      if (!uniqueMovieIds.has(movie.id)) {
+        const title = movie.title ? movie.title.toLowerCase() : '';
+        const name = movie.name ? movie.name.toLowerCase() : '';
+
+        if (title.includes(searchMovie.toLowerCase()) || name.includes(searchMovie.toLowerCase())) {
+          filteredMovies.push(movie);
+          uniqueMovieIds.add(movie.id); 
+        }
+      }
+    });
+    return filteredMovies;
+  };
+
+  return (
+    <>
+      <div className={style.backgroundStyle}>
+        <Header
+          favorites={favorites}
+          onSearchChange={handleSearchMovie}
+          onRemoveFavorite={removeFavorite}
+        />
+
+        <Tabs variant='enclosed' colorScheme='blue'>
+          <TabList
+          overflow='hidden'
+          bg='white'
+          justifyContent="center"
+          alignItems="center"
+          fontSize={{ base: 'sm', md: 'md', lg: 'lg', xl: 'xl' }}
+          >
+
+            <Tab
+              fontSize={{ base: 'xs', md: 'md', lg: 'lg', xl: 'xl' }}
+              _selected={{ color: 'white', bg: 'blue.500' }}
+              px={[3, 5, 6, 7]}>
+              All
+            </Tab>
+
+            <Tab
+              fontSize={{ base: 'xs', md: 'md', lg: 'lg', xl: 'xl' }}
+              _selected={{ color: 'white', bg: 'blue.500' }}
+              px={[2, 3, 4, 5]}>
+              Discover
+            </Tab>
+
+            <Tab
+              fontSize={{ base: 'xs', md: 'md', lg: 'lg', xl: 'xl' }}
+              _selected={{ color: 'white', bg: 'blue.500' }}
+              px={[2, 3, 4, 5]}>
+              Trending
+            </Tab>
+
+            <Tab
+              fontSize={{ base: 'xs', md: 'md', lg: 'lg', xl: 'xl' }}
+              _selected={{ color: 'white', bg: 'blue.500' }}
+              px={[2, 3, 4, 5]}>
+              Top Rated
+            </Tab>
+
+            <Tab
+              fontSize={{ base: 'xs', md: 'md', lg: 'lg', xl: 'xl' }}
+              _selected={{ color: 'white', bg: 'blue.500' }}
+              px={[2, 3, 4, 5]}>
+              Upcoming
+            </Tab>
+
+          </TabList>
+
+
+          <Search value={searchMovie} onChange={handleSearchMovie} />
+
+          <TabPanels mt="-10">
+            <TabPanel>
+              <AllMovies movies={filterMovies()} searchMovie={searchMovie} />
+            </TabPanel>
+            <TabPanel>
+              <DiscoverMovies movies={discoverMovies} searchMovie={searchMovie} />
+            </TabPanel>
+            <TabPanel>
+              <TrendingMovies movies={trendingMovies} searchMovie={searchMovie} />
+            </TabPanel>
+            <TabPanel>
+              <TopRatedMovies movies={topRatedMovies} searchMovie={searchMovie} />
+            </TabPanel>
+            <TabPanel>
+              <UpcomingMovies movies={upcomingMovies} searchMovie={searchMovie} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </div>
+    </>
+  );
+}
+
+export default MainPage;
