@@ -1,6 +1,7 @@
 import { Tag, Box, Flex } from '@chakra-ui/react';
 
 function MovieGenres({ genres }) {
+  console.log('genres', genres)
 
   return (
     <Flex justifyContent="center" >
@@ -11,9 +12,9 @@ function MovieGenres({ genres }) {
         mt='3'
       >
 
-        {genres.map((genre) => (
-          <Tag key={genre.id} m={1} fontSize={{ base: 'sm', md: 'md', lg: 'lg', xl: 'lg' }} >
-            {genre.name}
+        {genres.map((genre, index) => (
+          <Tag key={index} m={1} fontSize={{ base: 'sm', md: 'md', lg: 'lg', xl: 'lg' }} >
+            {genre}
           </Tag>
         ))}
       </Box>

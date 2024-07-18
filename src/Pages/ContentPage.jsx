@@ -66,7 +66,7 @@ function ContentPage() {
   } = state;
 
 
- // const apiUrl = 'https://api.themoviedb.org/3/';
+  const apiUrl = 'https://api.themoviedb.org/3/';
   const apiKey = '8772c586ff1328a24e402adce96ff6f9';
   const ytApi = 'AIzaSyC3ysL6CJSjliLqx5HK9abI-O44N-yNcWs';
 
@@ -78,6 +78,7 @@ function ContentPage() {
     try {
       const response = await fetch(`${myApi}/movies/${id}`);
       const json = await response.json();
+      console.log('jaaaaason', json)
       
 
 
@@ -85,7 +86,7 @@ function ContentPage() {
       dispatch({ type: "SET_TITLE", payload: json.data.title})
       dispatch({ type: "SET_DESCRIPTION", payload: json.data.overview })
     //  dispatch({ type: "SET_MOVIE_LANGUAGE", payload: json.data.spoken_languages })
-     // dispatch({ type: "SET_GENRES", payload: json.data.genres })
+      dispatch({ type: "SET_GENRES", payload: json.data.genres })
      // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
       dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
    //   dispatch({ type: "SET_TAGLINE", payload: json.data.tagline })
@@ -112,6 +113,7 @@ function ContentPage() {
 
 
   useEffect(() => {
+    console.log('state', state)
     fetchMovieDetails();
   }, [id]);
 
@@ -243,7 +245,7 @@ function ContentPage() {
 
                 {/*<OriginCountry originCountries={originCountry} />*/}
                 <VoteAverage voteAverage={voteAverage} />
-               {/* <MovieGenres genres={genres} /> */}
+                <MovieGenres genres={genres} /> 
 
               </Box>
             </div>
