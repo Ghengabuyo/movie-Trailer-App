@@ -5,7 +5,7 @@ import { SimpleGrid } from '@chakra-ui/react';
 function DiscoverMovies({ movies, searchMovie }) {
 
   const filteredMovies = movies.filter(movie => {
-    const title = movie.movieId.title;
+    const title = movie.movieId.title.toLowerCase();
 
 
     return title.includes(searchMovie.toLowerCase());

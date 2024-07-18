@@ -66,7 +66,7 @@ function ContentPage() {
   } = state;
 
 
-  const apiUrl = 'https://api.themoviedb.org/3/';
+ // const apiUrl = 'https://api.themoviedb.org/3/';
   const apiKey = '8772c586ff1328a24e402adce96ff6f9';
   const ytApi = 'AIzaSyC3ysL6CJSjliLqx5HK9abI-O44N-yNcWs';
 

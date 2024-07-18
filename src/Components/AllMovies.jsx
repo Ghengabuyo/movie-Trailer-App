@@ -6,7 +6,7 @@ function AllMovies({ movies, searchMovie }) {
 
   const filteredMovies = movies.filter(movie => {
 
-    const title = movie.title;
+    const title = movie.title.toLowerCase();
 
     return (
       title.includes(searchMovie.toLowerCase())
