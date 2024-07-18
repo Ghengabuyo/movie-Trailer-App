@@ -50,6 +50,10 @@ function MainPage() {
   const apiUrl = 'https://api.themoviedb.org/3/';
   const apiKey = '8772c586ff1328a24e402adce96ff6f9';
   const myApi = 'http://localhost:3000';
+  const discoverMoviesId = '66964cc3790305aee8aa45bb'
+  const trendingMoviesId = '66964cc3790305aee8aa45bc'
+  const topRatedMoviesId = '66964cc3790305aee8aa45bd'
+  const upcomingMoviesId = '66964cc3790305aee8aa45be'
 
 
   const fetchMovieDetails = async () => {
@@ -59,21 +63,22 @@ function MainPage() {
       const allMoviesJson = await allMoviesResponse.json();
       dispatch({ type: 'SET_ALL_MOVIES', payload: allMoviesJson.data });
 
-      const discoverResponse = await fetch(`${apiUrl}discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${apiKey}`);
+      const discoverResponse = await fetch(`${myApi}/categories/${discoverMoviesId}/movies`);
       const discoverJson = await discoverResponse.json();
-      dispatch({ type: "SET_DISCOVER_MOVIES", payload: discoverJson.results });
+      dispatch({ type: "SET_DISCOVER_MOVIES", payload: discoverJson.data });
+      console.log('discoverJson', discoverJson.data)
 
-      const trendingResponse = await fetch(`${apiUrl}trending/all/day?language=en-US&api_key=${apiKey}`);
+      const trendingResponse = await fetch(`${myApi}/categories/${trendingMoviesId}/movies`);
       const trendingJson = await trendingResponse.json();
-      dispatch({ type: "SET_TRENDING_MOVIES", payload: trendingJson.results });
+      dispatch({ type: "SET_TRENDING_MOVIES", payload: trendingJson.data });
 
-      const topRatedResponse = await fetch(`${apiUrl}movie/top_rated?language=en-US&page=1&api_key=${apiKey}`);
+      const topRatedResponse = await fetch(`${myApi}/categories/${topRatedMoviesId}/movies`);
       const topRatedJson = await topRatedResponse.json();
-      dispatch({ type: "SET_TOP_RATED_MOVIES", payload: topRatedJson.results });
+      dispatch({ type: "SET_TOP_RATED_MOVIES", payload: topRatedJson.data });
 
-      const upcomingResponse = await fetch(`${apiUrl}movie/upcoming?language=en-US&page=1&api_key=${apiKey}`);
+      const upcomingResponse = await fetch(`${myApi}/categories/${upcomingMoviesId}/movies`);
       const upcomingJson = await upcomingResponse.json();
-      dispatch({ type: "SET_UPCOMING_MOVIES", payload: upcomingJson.results });
+      dispatch({ type: "SET_UPCOMING_MOVIES", payload: upcomingJson.data });
     } catch (error) {
       console.error('Error fetching movie data:', error);
     }
@@ -100,10 +105,10 @@ function MainPage() {
   
 
   const filterMovies = () => {
-    const allMovies = [ ...allMovies
-    ];
+//     const allMovies = [ ...allMovies
+//     ];
 
-    console.log('all movies', allMovies);
+
 
     // Use a Set to store unique movie IDs
     const uniqueMovieIds = new Set();
@@ -123,6 +128,8 @@ function MainPage() {
     });
     return filteredMovies;
   };
+
+
 
   return (
     <>
@@ -179,6 +186,8 @@ function MainPage() {
 
           </TabList>
 
+          
+
 
           <Search value={searchMovie} onChange={handleSearchMovie} />
 
@@ -205,5 +214,7 @@ function MainPage() {
     </>
   );
 }
+
+
 
 export default MainPage;
