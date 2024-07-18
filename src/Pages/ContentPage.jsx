@@ -31,6 +31,7 @@ function ContentPage() {
 
   const { id } = useParams();
 
+
   const initialState = {
     title: '',
     posterPath: '',
@@ -69,26 +70,28 @@ function ContentPage() {
   const apiKey = '8772c586ff1328a24e402adce96ff6f9';
   const ytApi = 'AIzaSyC3ysL6CJSjliLqx5HK9abI-O44N-yNcWs';
 
+  const myApi = 'http://localhost:3000';
+
 
 
   const fetchMovieDetails = async () => {
     try {
-      const response = await fetch(`${apiUrl}movie/${id}?language=en-US&api_key=${apiKey}`);
-      console.log(response)
+      const response = await fetch(`${myApi}/movies/${id}`);
       const json = await response.json();
       console.log('json', json);
 
-      dispatch({ type: "SET_POSTER_PATH", payload: json.poster_path || 'not found' })
-      dispatch({ type: "SET_TITLE", payload: json.title || json.name })
-      dispatch({ type: "SET_DESCRIPTION", payload: json.overview })
-      dispatch({ type: "SET_MOVIE_LANGUAGE", payload: json.spoken_languages })
-      dispatch({ type: "SET_GENRES", payload: json.genres })
-      dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.production_countries })
-      dispatch({ type: "SET_VOTE_AVERAGE", payload: json.vote_average })
-      dispatch({ type: "SET_TAGLINE", payload: json.tagline })
+
+      dispatch({ type: "SET_POSTER_PATH", payload: json.data.poster_path})
+      dispatch({ type: "SET_TITLE", payload: json.data.title})
+      dispatch({ type: "SET_DESCRIPTION", payload: json.data.overview })
+    //  dispatch({ type: "SET_MOVIE_LANGUAGE", payload: json.data.spoken_languages })
+     // dispatch({ type: "SET_GENRES", payload: json.data.genres })
+     // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
+      dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
+   //   dispatch({ type: "SET_TAGLINE", payload: json.data.tagline })
 
 
-
+/*
       
             const trailerQuery = encodeURIComponent(`${json.title || json.name} official trailer`);
             const trailerResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${trailerQuery}&key=${ytApi}&part=snippet&type=video`);
@@ -99,7 +102,7 @@ function ContentPage() {
             } else {
                 console.log('No trailer found');
             } 
-
+*/
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -155,7 +158,7 @@ function ContentPage() {
         <Box color='blue.400' mb='6' mt='6'>
           <Tagline tagline={tagline} />
         </Box>
-
+{/*
         <Box
           w={{ base: '80%', md: '80%', lg: '60%', xl: '70%' }}
           p={4} border='1px'
@@ -178,7 +181,7 @@ function ContentPage() {
             </div>
           }
         </Box>
-
+*/}
       </div>
 
       <Flex
@@ -237,11 +240,11 @@ function ContentPage() {
                   {title}
                 </Text>
                 <MovieDescription description={description} />
-                <MovieLanguage movieLanguages={movieLanguage} />
+               {/* <MovieLanguage movieLanguages={movieLanguage} />*/}
 
-                <OriginCountry originCountries={originCountry} />
+                {/*<OriginCountry originCountries={originCountry} />*/}
                 <VoteAverage voteAverage={voteAverage} />
-                <MovieGenres genres={genres} />
+               {/* <MovieGenres genres={genres} /> */}
 
               </Box>
             </div>

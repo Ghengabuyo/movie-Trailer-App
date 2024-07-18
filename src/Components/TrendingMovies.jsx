@@ -2,7 +2,7 @@
 import MovieCard from './MovieCard';
 import { SimpleGrid } from '@chakra-ui/react';
 
-function TrendingMovies({ movies = [], searchMovie }) {
+function TrendingMovies({ movies, searchMovie }) {
 
   const filteredMovies = movies.filter(movie => {
     const title = movie.movieId.title;
@@ -21,10 +21,10 @@ function TrendingMovies({ movies = [], searchMovie }) {
         mt='10'
         padding={{ lg: 7, xl: 10 }}
       >
-        {filteredMovies.map((movie, index) => (
+         {filteredMovies.map(movie => (
           <MovieCard
-            key={index}
-            id={movie.id}
+            key={movie.id}
+            id={movie.movieId.id}
             title={movie.movieId.title}
             posterPath={movie.movieId.poster_path}
           />
@@ -33,6 +33,5 @@ function TrendingMovies({ movies = [], searchMovie }) {
     </section>
   );
 }
-
 
 export default TrendingMovies;

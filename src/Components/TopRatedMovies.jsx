@@ -20,10 +20,10 @@ function TopRatedMovies({ movies, searchMovie }) {
         mt='10'
         padding={{ lg: 7, xl: 10 }}
       >
-        {filteredMovies.map((movie, index) => (
+        {filteredMovies.map(movie => (
           <MovieCard
-            key={index}
-            id={movie.id}
+            key={movie.id}
+            id={movie.movieId.id}
             title={movie.movieId.title}
             posterPath={movie.movieId.poster_path}
           />
