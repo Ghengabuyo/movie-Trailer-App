@@ -18,10 +18,10 @@ function contentPageReducer(state, action) {
         description: action.payload
       };
 
-    case "SET_MOVIE_LANGUAGE":
+    case "SET_ORIGINAL_LANGUAGE":
       return {
         ...state,
-        movieLanguage: action.payload
+        originalLanguage: action.payload
       };
 
     case "SET_TRAILER_ID":

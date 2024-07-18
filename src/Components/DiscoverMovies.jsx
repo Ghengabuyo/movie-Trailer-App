@@ -11,7 +11,6 @@ function DiscoverMovies({ movies, searchMovie }) {
     return title.includes(searchMovie.toLowerCase());
   });
 
-  console.log({filteredMovies});
 
 
   return (

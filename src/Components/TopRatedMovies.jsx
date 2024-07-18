@@ -3,7 +3,6 @@ import MovieCard from './MovieCard';
 import { SimpleGrid } from '@chakra-ui/react';
 
 function TopRatedMovies({ movies, searchMovie }) {
-console.log('movies', movies)
 
   const filteredMovies = movies.filter(movie => {
     const title = movie.movieId.title.toLowerCase();

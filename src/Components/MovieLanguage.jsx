@@ -1,17 +1,15 @@
 import { Text } from "@chakra-ui/react";
 
-function MovieLanguage({ movieLanguages }) {
+function MovieLanguage({ originalLanguage }) {
   return (
     <div>
-      {movieLanguages.map((language, index) => (
         <Text
-          key={index}
           mt={3}
           ml={5}
+          mb={5}
         >
-          Movie Language: {language.name}
+          Movie Language: {originalLanguage}
         </Text>
-      ))}
     </div>
   );
 }

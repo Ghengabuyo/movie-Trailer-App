@@ -13,7 +13,6 @@ function AllMovies({ movies, searchMovie }) {
     );
   });
 
-  console.log({filteredMoviesFromAllMovies: filteredMovies})
 
   return (
     <>

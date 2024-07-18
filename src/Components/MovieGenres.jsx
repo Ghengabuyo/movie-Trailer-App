@@ -1,7 +1,6 @@
 import { Tag, Box, Flex } from '@chakra-ui/react';
 
 function MovieGenres({ genres }) {
-  console.log('genres', genres)
 
   return (
     <Flex justifyContent="center" >

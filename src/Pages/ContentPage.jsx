@@ -36,7 +36,7 @@ function ContentPage() {
     title: '',
     posterPath: '',
     description: '',
-    movieLanguage: [],
+    originalLanguage: '',
     trailerId: '',
     favorites: [],
     movieId: [],
@@ -55,7 +55,7 @@ function ContentPage() {
     title,
     posterPath,
     description,
-    movieLanguage,
+    originalLanguage,
     genres,
     originCountry,
     voteAverage,
@@ -85,7 +85,7 @@ function ContentPage() {
       dispatch({ type: "SET_POSTER_PATH", payload: json.data.poster_path})
       dispatch({ type: "SET_TITLE", payload: json.data.title})
       dispatch({ type: "SET_DESCRIPTION", payload: json.data.overview })
-    //  dispatch({ type: "SET_MOVIE_LANGUAGE", payload: json.data.spoken_languages })
+     dispatch({ type: "SET_ORIGINAL_LANGUAGE", payload: json.data.original_language })
       dispatch({ type: "SET_GENRES", payload: json.data.genres })
      // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
       dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
@@ -110,10 +110,9 @@ function ContentPage() {
 
   };
 
-
+console.log('state', state)
 
   useEffect(() => {
-    console.log('state', state)
     fetchMovieDetails();
   }, [id]);
 
@@ -241,7 +240,7 @@ function ContentPage() {
                   {title}
                 </Text>
                 <MovieDescription description={description} />
-               {/* <MovieLanguage movieLanguages={movieLanguage} />*/}
+                <MovieLanguage originalLanguage={originalLanguage} />
 
                 {/*<OriginCountry originCountries={originCountry} />*/}
                 <VoteAverage voteAverage={voteAverage} />
