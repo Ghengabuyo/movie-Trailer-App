@@ -11,6 +11,8 @@ function DiscoverMovies({ movies, searchMovie }) {
     return title.includes(searchMovie.toLowerCase());
   });
 
+  console.log({filteredMovies});
+
 
   return (
     <section>
@@ -23,7 +25,7 @@ function DiscoverMovies({ movies, searchMovie }) {
       >
          {filteredMovies.map(movie => (
           <MovieCard
-            key={movie.id}
+            key={movie.movieId.id}
             id={movie.movieId.id}
             title={movie.movieId.title}
             posterPath={movie.movieId.poster_path}

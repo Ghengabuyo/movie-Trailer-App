@@ -5,12 +5,15 @@ function AllMovies({ movies, searchMovie }) {
 
 
   const filteredMovies = movies.filter(movie => {
+
     const title = movie.title;
 
     return (
       title.includes(searchMovie.toLowerCase())
     );
   });
+
+  console.log({filteredMoviesFromAllMovies: filteredMovies})
 
   return (
     <>

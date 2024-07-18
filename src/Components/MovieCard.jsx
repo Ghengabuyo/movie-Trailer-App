@@ -14,10 +14,9 @@ import {
 
 function MovieCard({ title, posterPath, id }) {
   // const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
-  console.log('id', id)
 
   return (
-    <Link to={`/movie/${id}`}>
+    <Link to={`/Movie/${id}`}>
       <Card
         maxW="sm"
         borderRadius="0 12px 12px 12px"

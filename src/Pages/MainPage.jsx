@@ -79,12 +79,12 @@ function MainPage() {
       const discoverResponse = await fetch(`${myApi}/categories/${discoverMoviesId}/movies`);
       const discoverJson = await discoverResponse.json();
       dispatch({ type: "SET_DISCOVER_MOVIES", payload: discoverJson.data });
-      console.log('discoverJson', discoverJson.data)
 
 
       const trendingResponse = await fetch(`${myApi}/categories/${trendingMoviesId}/movies`);
       const trendingJson = await trendingResponse.json();
       dispatch({ type: "SET_TRENDING_MOVIES", payload: trendingJson.data });
+
 
 
       const topRatedResponse = await fetch(`${myApi}/categories/${topRatedMoviesId}/movies`);

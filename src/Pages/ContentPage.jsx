@@ -78,7 +78,7 @@ function ContentPage() {
     try {
       const response = await fetch(`${myApi}/movies/${id}`);
       const json = await response.json();
-      console.log('json', json);
+      
 
 
       dispatch({ type: "SET_POSTER_PATH", payload: json.data.poster_path})
@@ -89,7 +89,6 @@ function ContentPage() {
      // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
       dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
    //   dispatch({ type: "SET_TAGLINE", payload: json.data.tagline })
-
 
 /*
       
