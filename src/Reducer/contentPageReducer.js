@@ -24,10 +24,10 @@ function contentPageReducer(state, action) {
         originalLanguage: action.payload
       };
 
-    case "SET_TRAILER_ID":
+    case "SET_TRAILER_VIDEO":
       return {
         ...state,
-        trailerId: action.payload
+        trailerVideo: action.payload
       };
 
     case "SET_GENRES":

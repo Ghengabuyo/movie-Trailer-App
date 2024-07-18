@@ -37,7 +37,7 @@ function ContentPage() {
     posterPath: '',
     description: '',
     originalLanguage: '',
-    trailerId: '',
+    trailerVideo: '',
     favorites: [],
     movieId: [],
     genres: [],
@@ -59,7 +59,7 @@ function ContentPage() {
     genres,
     originCountry,
     voteAverage,
-    trailerId,
+    trailerVideo,
     favorites,
 
     tagline
@@ -89,7 +89,11 @@ function ContentPage() {
       dispatch({ type: "SET_GENRES", payload: json.data.genres })
      // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
       dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
+
+
+      dispatch({ type: "SET_TRAILER_VIDEO", payload: json.data.video})
    //   dispatch({ type: "SET_TAGLINE", payload: json.data.tagline })
+
 
 /*
       
@@ -158,7 +162,7 @@ console.log('state', state)
         <Box color='blue.400' mb='6' mt='6'>
           <Tagline tagline={tagline} />
         </Box>
-{/*
+
         <Box
           w={{ base: '80%', md: '80%', lg: '60%', xl: '70%' }}
           p={4} border='1px'
@@ -172,7 +176,7 @@ console.log('state', state)
 
             <div className={style.videoContainer}>
               <iframe
-                src={`https://www.youtube.com/embed/${trailerId}?autoplay=1`}
+                src={trailerVideo}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
                 allowFullScreen
@@ -181,7 +185,7 @@ console.log('state', state)
             </div>
           }
         </Box>
-*/}
+
       </div>
 
       <Flex
