@@ -36,11 +36,6 @@ function contentPageReducer(state, action) {
         genres: action.payload
       };
 
-    case "SET_ORIGIN_COUNTRY":
-      return {
-        ...state,
-        originCountry: action.payload
-      };
 
     case "SET_VOTE_AVERAGE":
       return {
@@ -48,11 +43,6 @@ function contentPageReducer(state, action) {
         voteAverage: action.payload
       };
 
-    case "SET_TAGLINE":
-      return {
-        ...state,
-        tagline: action.payload
-      };
 
     case "ADD_TO_FAVORITES":
       const { id, posterPath, title } = action.payload;

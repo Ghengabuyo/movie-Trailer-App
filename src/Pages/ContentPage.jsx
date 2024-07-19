@@ -57,21 +57,13 @@ function ContentPage() {
     description,
     originalLanguage,
     genres,
-    originCountry,
     voteAverage,
     trailerVideo,
     favorites,
-
-    tagline
   } = state;
 
 
-  const apiUrl = 'https://api.themoviedb.org/3/';
-  const apiKey = '8772c586ff1328a24e402adce96ff6f9';
-  const ytApi = 'AIzaSyC3ysL6CJSjliLqx5HK9abI-O44N-yNcWs';
-
   const myApi = 'http://localhost:3000';
-
 
 
   const fetchMovieDetails = async () => {
@@ -79,34 +71,17 @@ function ContentPage() {
       const response = await fetch(`${myApi}/movies/${id}`);
       const json = await response.json();
       console.log('jaaaaason', json)
-      
 
 
-      dispatch({ type: "SET_POSTER_PATH", payload: json.data.poster_path})
-      dispatch({ type: "SET_TITLE", payload: json.data.title})
+      const videoUrl = `${json.data.video}&autoplay=1&mute=-1`;
+
+      dispatch({ type: "SET_POSTER_PATH", payload: json.data.poster_path })
+      dispatch({ type: "SET_TITLE", payload: json.data.title })
       dispatch({ type: "SET_DESCRIPTION", payload: json.data.overview })
-     dispatch({ type: "SET_ORIGINAL_LANGUAGE", payload: json.data.original_language })
+      dispatch({ type: "SET_ORIGINAL_LANGUAGE", payload: json.data.original_language })
       dispatch({ type: "SET_GENRES", payload: json.data.genres })
-     // dispatch({ type: "SET_ORIGIN_COUNTRY", payload: json.data.production_countries })
       dispatch({ type: "SET_VOTE_AVERAGE", payload: json.data.vote_average })
-
-
-      dispatch({ type: "SET_TRAILER_VIDEO", payload: json.data.video})
-   //   dispatch({ type: "SET_TAGLINE", payload: json.data.tagline })
-
-
-/*
-      
-            const trailerQuery = encodeURIComponent(`${json.title || json.name} official trailer`);
-            const trailerResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?q=${trailerQuery}&key=${ytApi}&part=snippet&type=video`);
-            const trailerData = await trailerResponse.json();
-
-            if (trailerData.items && trailerData.items.length > 0) { // Check if trailerData.items exists
-                dispatch({ type: "SET_TRAILER_ID", payload: trailerData.items[0].id.videoId })
-            } else {
-                console.log('No trailer found');
-            } 
-*/
+      dispatch({ type: "SET_TRAILER_VIDEO", payload: videoUrl })
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -114,7 +89,7 @@ function ContentPage() {
 
   };
 
-console.log('state', state)
+  console.log('state', state)
 
   useEffect(() => {
     fetchMovieDetails();
@@ -126,12 +101,12 @@ console.log('state', state)
     dispatch({ type: "LOAD_FAVORITES", payload: savedFavorites });
   }, []);
 
-  
-      const handleRemoveFavorite = (id) => {
-          const updatedFavorites = state.favorites.filter(favorite => favorite.id !== id);
-          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-          dispatch({ type: "REMOVE_FROM_FAVORITES", payload: id });
-      };
+
+  const handleRemoveFavorite = (id) => {
+    const updatedFavorites = state.favorites.filter(favorite => favorite.id !== id);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    dispatch({ type: "REMOVE_FROM_FAVORITES", payload: id });
+  };
 
 
   const addToFavorites = () => {
@@ -160,7 +135,7 @@ console.log('state', state)
         <GoBack />
 
         <Box color='blue.400' mb='6' mt='6'>
-          <Tagline tagline={tagline} />
+          <Tagline />
         </Box>
 
         <Box
@@ -185,7 +160,6 @@ console.log('state', state)
             </div>
           }
         </Box>
-
       </div>
 
       <Flex
@@ -245,10 +219,8 @@ console.log('state', state)
                 </Text>
                 <MovieDescription description={description} />
                 <MovieLanguage originalLanguage={originalLanguage} />
-
-                {/*<OriginCountry originCountries={originCountry} />*/}
                 <VoteAverage voteAverage={voteAverage} />
-                <MovieGenres genres={genres} /> 
+                <MovieGenres genres={genres} />
 
               </Box>
             </div>

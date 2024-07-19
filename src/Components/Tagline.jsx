@@ -1,13 +1,13 @@
 import { Flex, Text } from '@chakra-ui/react'
 
-function Tagline({ tagline }) {
+function Tagline() {
 
   return (
     <Flex justifyContent='center'>
       <Text
         fontStyle="italic"
-        fontSize={{ base: 'md', md: 'lg', lg: 'xl', xl: '2xl' }}>
-        {tagline}
+        fontSize={{ base: 'md', md: 'lg', lg: 'xl', xl: '3xl' }}>
+        The excitement begins: Watch the thrilling trailer NOW!
       </Text>
     </Flex>
 
